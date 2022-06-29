@@ -3,7 +3,7 @@ import config as cfg
 
 
 def start_yc_vm():
-    os.system('yc compute instance start airflow-otus')
+    os.system(f'yc compute instance start {cfg.AIRFLOW_VM}')
 
 
 def connect_to_yc_vm():
@@ -13,14 +13,12 @@ def connect_to_yc_vm():
 
 
 def stop_yc():
-    os.system('yc compute instance stop airflow-otus')
-    # TODO find yc lib for py
+    os.system(f'yc compute instance stop {cfg.AIRFLOW_VM}')
     pass
 
 
 if __name__ == '__main__':
     print('')
     start_yc_vm()
-    print(os.system('yc compute instance start airflow-otus'))
     # connect_to_yc_vm()
     # stop_yc()
