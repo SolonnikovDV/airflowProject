@@ -1,11 +1,7 @@
 import datetime
-import os
 import time
-
 import psycopg2
 import requests
-import schedule as schedule
-
 import config as cfg
 
 DATA_TIME = datetime.datetime.now()
@@ -36,6 +32,7 @@ def create_connection_to_psql(host, port, sslmode, dbname, user, password):
             user={user}
             password={password}
             target_session_attrs=read-write
+            sslrootcert={cfg.sslrootcert}
             """)
     conn.autocommit = True
     with conn.cursor() as cur:
@@ -45,15 +42,15 @@ def create_connection_to_psql(host, port, sslmode, dbname, user, password):
 
 
 def create_table():
+    conn = create_connection_to_psql(
+        cfg.HOST,
+        cfg.PORT,
+        cfg.SSLMODE,
+        cfg.DBNAME,
+        cfg.USER,
+        cfg.PASSWORD
+    )
     try:
-        conn = create_connection_to_psql(
-            cfg.HOST,
-            cfg.PORT,
-            cfg.SSLMODE,
-            cfg.DBNAME,
-            cfg.USER,
-            cfg.PASSWORD
-        )
         conn.autocommit = True
     # create table
         with conn.cursor() as cur:
@@ -77,15 +74,15 @@ def create_table():
 
 
 def insert_data_to_table():
+    conn = create_connection_to_psql(
+        cfg.HOST,
+        cfg.PORT,
+        cfg.SSLMODE,
+        cfg.DBNAME,
+        cfg.USER,
+        cfg.PASSWORD
+    )
     try:
-        conn = create_connection_to_psql(
-            cfg.HOST,
-            cfg.PORT,
-            cfg.SSLMODE,
-            cfg.DBNAME,
-            cfg.USER,
-            cfg.PASSWORD
-        )
         conn.autocommit = True
         with conn.cursor() as cur:
             sql_query = f"""

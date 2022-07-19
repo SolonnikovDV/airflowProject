@@ -7,7 +7,8 @@ def start_yc_vm():
 
 
 def connect_to_yc_vm():
-    public_ip = os.system('curl http://169.254.169.254/latest/meta-data/public-ipv4')
+    public_ip = str(os.popen('curl http://169.254.169.254/latest/meta-data/public-ipv4'))
+    print(str(public_ip))
     os.system(f'ssh {cfg.VM_USER_NAME}@{public_ip}')
     # TODO make request of meta-data VM as test of successful connection
 
