@@ -7,13 +7,12 @@ from airflow.operators.python import PythonOperator
 from table import insert_data_to_table
 
 args = {
-    'start_date': pendulum.datetime(2022, 7, 19, tz="UTC"),
-    'schedule_interval': '0/1 * * * *', # run every 1 min
+    'start_date': pendulum.datetime(2022, 7, 19, tz="Europe/Moscow"),
     'catchup': False
 }
 
 
-with DAG(dag_id='dag_test', default_args=args,) as dag:
+with DAG(dag_id='dag_test', default_args=args, schedule_interval='0/1 * * * *',) as dag:
     insert_data = PythonOperator(
         task_id='insert_data_to_table',
         python_callable=insert_data_to_table
